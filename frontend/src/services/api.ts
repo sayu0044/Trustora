@@ -1,4 +1,4 @@
-import type { BatchResponse, MetricsResponse, PredictResponse } from "../types/api";
+import type { BatchResponse, MetricsResponse, PredictResponse, TrainingStatus } from "../types/api";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 
@@ -38,6 +38,16 @@ export async function predictBatch(file: File): Promise<BatchResponse> {
     body: data
   });
   return parseResponse<BatchResponse>(response);
+}
+
+export async function getTrainingStatus(): Promise<TrainingStatus> {
+  const response = await fetch(`${API_BASE_URL}/api/train/status`);
+  return parseResponse<TrainingStatus>(response);
+}
+
+export async function startTraining(): Promise<TrainingStatus> {
+  const response = await fetch(`${API_BASE_URL}/api/train`, { method: "POST" });
+  return parseResponse<TrainingStatus>(response);
 }
 
 export function artifactUrl(path: string): string {

@@ -43,6 +43,18 @@ export interface DatasetSummary {
   columns?: string[];
 }
 
+export type TrainingState = "idle" | "running" | "success" | "error";
+
+export interface TrainingStatus {
+  state: TrainingState;
+  model_ready: boolean;
+  message: string | null;
+  best_model: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  duration_seconds: number | null;
+}
+
 export interface BatchPrediction {
   message: string;
   category: string;

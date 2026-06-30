@@ -46,6 +46,16 @@ class MetricsResponse(BaseModel):
     dataset_summary: dict[str, Any]
     confusion_matrix_url: str | None
 
+class TrainingStatusResponse(BaseModel):
+    state: Literal["idle", "running", "success", "error"]
+    model_ready: bool
+    message: str | None = None
+    best_model: str | None = None
+    started_at: str | None = None
+    finished_at: str | None = None
+    duration_seconds: float | None = None
+
+
 class BatchPrediction(BaseModel):
     message: str
     category: str

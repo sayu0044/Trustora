@@ -17,6 +17,14 @@ def test_predict_empty_validation():
     assert response.status_code == 422
 
 
+def test_train_status_endpoint():
+    response = client.get("/api/train/status")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["state"] in {"idle", "running", "success", "error"}
+    assert isinstance(body["model_ready"], bool)
+
+
 def test_predict_endpoint_schema():
     response = client.post("/api/predict", json={"message": "Selamat anda mendapatkan hadiah klik link"})
     assert response.status_code in {200, 503}
