@@ -294,10 +294,11 @@ button:disabled {
   text-decoration: none;
 }
 
-.brand svg {
+.brand .logo-icon {
   color: var(--accent);
-  height: 22px;
-  width: 22px;
+  height: 42px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-links {

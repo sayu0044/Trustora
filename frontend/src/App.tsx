@@ -1,4 +1,4 @@
-import { Menu, Moon, Search, Shield, Sun, X } from "lucide-react";
+import { Menu, Moon, Search, Sun, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BatchAnalyzer } from "./components/BatchAnalyzer";
 import { MessageAnalyzer } from "./components/MessageAnalyzer";
@@ -38,7 +38,7 @@ export default function App() {
       <header className={`topbar${scrolled ? " is-scrolled" : ""}`}>
         <div className="topbar-inner">
           <a className="brand" href="#analisis" aria-label="Trustora beranda">
-            <Shield aria-hidden="true" />
+            <img src="/images/logo.png" alt="" className="logo-icon" aria-hidden="true" />
             <span>Trustora</span>
           </a>
 
@@ -146,7 +146,7 @@ export default function App() {
         <div className="footer-top">
           <div className="footer-brand">
             <a className="brand" href="#analisis" aria-label="Trustora beranda">
-              <Shield aria-hidden="true" />
+              <img src="/images/logo.png" alt="" className="logo-icon" aria-hidden="true" />
               <span>Trustora</span>
             </a>
             <p>
