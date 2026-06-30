@@ -106,6 +106,8 @@ Command yang tersedia:
 
 `trustora install` tidak otomatis menjalankan training. Jalankan `trustora train` setelah install atau setiap dataset/model perlu diperbarui. Backend berjalan di `http://localhost:8000`, dokumentasi API tersedia di `http://localhost:8000/docs`, dan frontend berjalan di `http://localhost:5173`.
 
+Frontend dikunci ke port `5173`. Jika Vite gagal start karena port sedang dipakai, hentikan proses frontend lama terlebih dahulu lalu jalankan ulang `trustora serve`; jangan memakai port fallback seperti `5176`, `5177`, atau `5178` untuk alur normal.
+
 ## Menjalankan Manual
 
 ### Backend
@@ -141,6 +143,8 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Vite dikonfigurasi dengan `strictPort`, sehingga `npm run dev` akan gagal jika `http://localhost:5173` sudah dipakai. Hentikan proses lama sebelum menjalankan ulang frontend.
 
 Frontend default memakai:
 

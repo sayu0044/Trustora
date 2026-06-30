@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from backend.app.api.routes import router
-from backend.app.config import ARTIFACTS_DIR, get_cors_origins
+from backend.app.config import ARTIFACTS_DIR, get_cors_origin_regex, get_cors_origins
 
 
 app = FastAPI(
@@ -17,6 +17,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=get_cors_origins(),
+    allow_origin_regex=get_cors_origin_regex(),
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],

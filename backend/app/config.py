@@ -23,6 +23,7 @@ SUPPORTED_LABELS = {"ham", "spam"}
 MAX_MESSAGE_LENGTH = 5000
 MAX_BATCH_BYTES = 2 * 1024 * 1024
 DISCLAIMER = "Hasil ini merupakan prediksi awal dan bukan keputusan mutlak."
+LOCAL_DEV_CORS_ORIGIN_REGEX = r"^http://(localhost|127\.0\.0\.1|\[::1\]):517[3-9]$"
 
 
 def get_dataset_path() -> Path:
@@ -35,5 +36,9 @@ def get_dataset_path() -> Path:
 
 
 def get_cors_origins() -> list[str]:
-    raw = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
-    return [origin.strip() for origin in raw.split(",") if origin.strip()]
+    raw = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://[::1]:5173")
+    return list(dict.fromkeys(origin.strip() for origin in raw.split(",") if origin.strip()))
+
+
+def get_cors_origin_regex() -> str:
+    return LOCAL_DEV_CORS_ORIGIN_REGEX

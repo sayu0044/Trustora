@@ -1,6 +1,8 @@
 import type { BatchResponse, MetricsResponse, PredictResponse, TrainingStatus } from "../types/api";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const LOCAL_SERVER_GUIDANCE =
+  "Pastikan backend berjalan di http://localhost:8000 lewat trustora serve, frontend berjalan di http://localhost:5173, dan tidak ada port lama yang masih aktif.";
 
 async function parseResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -41,12 +43,22 @@ export async function predictBatch(file: File): Promise<BatchResponse> {
 }
 
 export async function getTrainingStatus(): Promise<TrainingStatus> {
-  const response = await fetch(`${API_BASE_URL}/api/train/status`);
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}/api/train/status`);
+  } catch {
+    throw new Error(`Status training belum dapat dimuat. ${LOCAL_SERVER_GUIDANCE}`);
+  }
   return parseResponse<TrainingStatus>(response);
 }
 
 export async function startTraining(): Promise<TrainingStatus> {
-  const response = await fetch(`${API_BASE_URL}/api/train`, { method: "POST" });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}/api/train`, { method: "POST" });
+  } catch {
+    throw new Error(`Training gagal dimulai. ${LOCAL_SERVER_GUIDANCE}`);
+  }
   return parseResponse<TrainingStatus>(response);
 }
 
