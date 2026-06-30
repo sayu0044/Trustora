@@ -13,3 +13,4 @@ backend/artifacts/model.joblib
 backend/artifacts/*.png
 backend/artifacts/*.json
 .env
+.serena

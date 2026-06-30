@@ -7,7 +7,8 @@ Trustora adalah aplikasi web lokal untuk menganalisis SMS atau chat berbahasa In
 - Backend: FastAPI, Pydantic, Pandas, NumPy, Scikit-learn, Joblib, Matplotlib, Sastrawi opsional.
 - Machine learning: pipeline `preprocess_text -> TfidfVectorizer -> classifier`, sehingga teks mentah dapat langsung diprediksi tanpa preprocessing frontend.
 - Frontend: React, Vite, TypeScript, CSS biasa.
-- Dataset default: `sms_spam_indo.csv` di root repo, dapat diganti dengan `DATASET_PATH`.
+- Dataset default project ini berada di `csv/sms_spam_indo.csv` dan dibaca lewat `DATASET_PATH`.
+- CLI lokal: `trustora install`, `trustora train`, `trustora serve`, dan `trustora test`.
 
 ## Struktur Folder
 
@@ -28,7 +29,10 @@ frontend/
   src/components/
   src/services/
   src/types/
-sms_spam_indo.csv
+csv/
+  sms_spam_indo.csv
+trustora.ps1
+trustora.bat
 ```
 
 ## Dataset Aktual
@@ -72,7 +76,39 @@ FN spam: 2
 TP spam: 113
 ```
 
-## Menjalankan Backend
+## Menjalankan dengan Trustora CLI
+
+Cara paling praktis di Windows adalah memakai CLI lokal:
+
+```powershell
+.\trustora.bat install
+.\trustora.bat train
+.\trustora.bat serve
+```
+
+Jika folder project sudah masuk `PATH`, command juga bisa dipanggil sebagai:
+
+```powershell
+trustora install
+trustora train
+trustora serve
+```
+
+Command yang tersedia:
+
+| Command | Fungsi |
+| --- | --- |
+| `trustora install` | Membuat atau memakai ulang `.venv`, install dependency Python, menjalankan `npm install`, dan memastikan `.env` memakai `DATASET_PATH=csv/sms_spam_indo.csv`. |
+| `trustora train` | Menjalankan training model dan menulis artifacts ke `backend/artifacts/`. |
+| `trustora serve` | Menjalankan backend FastAPI dan frontend Vite sekaligus dalam satu terminal. |
+| `trustora test` | Menjalankan backend pytest, frontend Vitest, dan TypeScript typecheck. |
+| `trustora help` | Menampilkan bantuan CLI. |
+
+`trustora install` tidak otomatis menjalankan training. Jalankan `trustora train` setelah install atau setiap dataset/model perlu diperbarui. Backend berjalan di `http://localhost:8000`, dokumentasi API tersedia di `http://localhost:8000/docs`, dan frontend berjalan di `http://localhost:5173`.
+
+## Menjalankan Manual
+
+### Backend
 
 Windows PowerShell:
 
@@ -80,6 +116,7 @@ Windows PowerShell:
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r backend/requirements.txt
+$env:DATASET_PATH="csv/sms_spam_indo.csv"
 python -m backend.app.ml.train
 uvicorn backend.app.main:app --reload
 ```
@@ -90,13 +127,14 @@ Linux/macOS:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r backend/requirements.txt
+export DATASET_PATH=csv/sms_spam_indo.csv
 python -m backend.app.ml.train
 uvicorn backend.app.main:app --reload
 ```
 
 Backend berjalan di `http://localhost:8000` dan dokumentasi API tersedia di `http://localhost:8000/docs`.
 
-## Menjalankan Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -111,6 +149,14 @@ VITE_API_BASE_URL=http://localhost:8000
 ```
 
 ## Menjalankan Test dan Build
+
+Dengan CLI:
+
+```powershell
+.\trustora.bat test
+```
+
+Manual:
 
 ```bash
 pytest backend/tests
